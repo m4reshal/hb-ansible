@@ -3,6 +3,9 @@
   gather_facts: false
   hosts: webservers
   tasks:
+    - name: Just execute command
+      shell: ls -1 /tmp
+
     - name: Start Firewall service 
       block:
         - name:  Open http service on OS firewall 
