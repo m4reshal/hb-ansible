@@ -1,0 +1,11 @@
+---
+- name: Demonstare host facts
+  hosts: winserver
+  gather_facts: yes
+  monitoring_ip: 10.210.200.10
+  tasks:
+    - name: Print ip adress of the host
+      vars:
+        monitoring_ip: 10.210.200.10
+      debug:
+        msg: "Suncudaki ilk ip: {{ ansible_ip_addresses[0] }} ve hostname: {{ ansible_hostname }}"
