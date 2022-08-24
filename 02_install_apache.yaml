@@ -17,3 +17,4 @@
       service:
         name: httpd
         state: restarted
+      when: copy_output.changed 
