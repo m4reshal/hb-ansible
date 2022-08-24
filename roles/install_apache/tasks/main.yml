@@ -1,0 +1,42 @@
+---
+# tasks file for install_apache
+    - name: Start Firewall service
+      block:
+        - name:  Open http service on OS firewall
+          firewalld:
+            service: "{{ _service }}"
+            permanent: yes
+            state: enabled
+          loop: "{{ firewall_services_to_be_enabled }}"
+          loop_control:
+            loop_var: _service
+
+        - name:  Open http service on OS firewall
+          firewalld:
+            port: "{{ _port }}"
+            permanent: yes
+            state: enabled
+          loop: "{{ firewall_ports_to_be_enabled }}"
+          loop_control:
+            loop_var: _port
+
+    - name: Install block
+      block:
+        - name: Install httpd package
+          yum:
+            name: httpd
+            state: latest
+
+
+        - name: Copy index file
+          copy:
+            src: index.html
+            dest: /var/www/html/index.html
+          register: copy_output
+
+        - name: Start httpd service
+          service:
+            name: httpd
+            state: restarted
+            enabled: yes
+          when: copy_output.changed

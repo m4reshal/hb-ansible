@@ -1,0 +1,15 @@
+---
+- name:  Install Apache and Start Service
+  gather_facts: false
+  hosts: webservers
+  tasks:
+    - name: Include role
+      vars:
+        firewall_services_to_be_enabled: 
+          - http
+          - https
+        firewall_ports_to_be_enabled:
+          - 80/tcp
+          - 443/tcp
+      include_role: 
+        name: install_apache

@@ -1,0 +1,8 @@
+---
+# defaults file for install_apache
+firewall_services_to_be_enabled:
+  - http
+  - https
+firewall_ports_to_be_enabled:
+  - 80/tcp
+  - 443/tcp
