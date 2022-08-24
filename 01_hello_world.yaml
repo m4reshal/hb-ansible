@@ -1,0 +1,9 @@
+---
+- name: Hello world play
+  hosts: istanbul
+  tasks:
+    - name: Update /etc/motd 
+      copy:
+        content: Hello World by our first playbook
+        dest: /etc/motd
+ 
