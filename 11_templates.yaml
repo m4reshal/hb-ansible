@@ -2,6 +2,8 @@
 - name: Blocks Install Apache and Start Service
   gather_facts: true
   hosts: webservers
+  vars:
+    backup_server: 10.210.200.25
   tasks:
 
     - name: Start Firewall service 
