@@ -1,0 +1,40 @@
+---
+- name: Blocks Install Apache and Start Service
+  gather_facts: false
+  hosts: webservers
+  tasks:
+
+    - name: Start Firewall service 
+      block:
+        - name:  Open http service on OS firewall 
+          firewalld: 
+            service: http
+            permanent: yes
+            state: enabled
+
+        - name:  Open http service on OS firewall 
+          firewalld: 
+            port: 80/tcp
+            permanent: yes
+            state: enabled
+
+    - name: Install block
+      block:
+        - name: Install httpd package
+          yum:
+            name: httpd
+            state: latest
+        
+        
+        - name: Copy index file
+          template:
+            src: templates/index.j2
+            dest: /var/www/html/index.html
+          register: copy_output
+        
+        - name: Start httpd service
+          service:
+            name: httpd
+            state: restarted
+            enabled: yes
+          when: copy_output.changed
