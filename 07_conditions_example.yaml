@@ -1,0 +1,17 @@
+---
+- name: Conditions example
+  hosts: windows_hosts
+  gather_facts: false
+  tasks:
+    - name: Gather facts from servers
+      setup:
+
+    - name: Print some message
+      vars: 
+        skip_debug: "0"
+      debug:
+        msg: "All conditions are true! and  ansible_architecture {{ ansible_architecture == '64-bit'  }}"
+      when: 
+        - ansible_architecture == "64-bit" 
+        - (ansible_memtotal_mb | int ) >= 4096 
+        - not (skip_debug | bool)
