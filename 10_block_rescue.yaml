@@ -45,6 +45,12 @@
           block:
             - name: Rescue block error message
               shell: echo "Apache kurulurken hata alinmistir"
+              register: echo_output
+              failed_when: "'hata alinmistir' in echo_output.stdout"
+          rescue:
+            - name: Inner rescue
+              debug:
+                msg: "Icteki rescue task tetiklenmistir."
       always:
         - name: End of play
           debug:
