@@ -1,0 +1,20 @@
+---
+- name: Delegation example
+  hosts: rheldev
+  tasks:
+    - name: remote running process
+      shell: "ps -ef | grep -i tower"
+      register: remote_process
+
+    - name: Print remote process output on screen
+      debug: 
+        msg: "{{ remote_process.stdout }}"
+
+    - name: Running Local Process
+      shell: "ps -ef | grep -i tower"
+      delegate_to: localhost
+      register: delegated_process
+
+    - name: Print local process output on screen
+      debug: 
+        msg: "{{ delegated_process.stdout }}"
