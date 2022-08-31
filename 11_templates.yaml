@@ -1,6 +1,6 @@
 ---
 - name: Blocks Install Apache and Start Service
-  gather_facts: false
+  gather_facts: true
   hosts: webservers
   tasks:
 
