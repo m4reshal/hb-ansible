@@ -1,0 +1,39 @@
+---
+- name: Conditions example
+  hosts: windows_hosts
+  gather_facts: false
+  tasks:
+    - name: Gather facts from servers
+      setup:
+
+    - name: Print some message
+      vars: 
+        skip_debug: "1"
+      debug:
+        msg: "All conditions are true! and  ansible_architecture {{ ansible_architecture == '64-bit'  }} and skip_debug: {{ skip_debug | bool }}"
+      when: 
+        - '"Windows" in ansible_distribution'
+        - ansible_architecture == "64-bit" 
+        - (ansible_memtotal_mb | int ) >= 4096 
+        - not (skip_debug | bool)
+
+    - name:  Edit config file
+      win_lineinfile:
+        path: C:\Temp\specific_service.conf
+        regex: '^name='
+        line: "name=importantconfigvalue"
+        state: present
+        create: yes
+      notify:
+        - Second handler task
+        - First handler task
+
+  handlers:
+    - name: First handler task
+      debug: 
+        msg: "İlk sıradaki handler execute edildi."
+
+
+    - name: Second handler task
+      debug: 
+        msg: "ikinci sıradaki handler execute edildi."
