@@ -1,0 +1,27 @@
+---
+- name: Async jobs
+  hosts: webservers
+  gather_facts: false
+  tasks:
+    - name: Simulate long running task
+      command: /bin/sleep 60
+      async: 300
+      poll: 0
+      register: long_running_job
+
+
+    - name: Gather facts
+      setup:
+
+    - name: Print ip info
+      debug:
+        msg: "{{ ansible_default_ipv4 }}"
+
+
+    - name: Wait for first task to complete
+      async_status:
+        jid: "{{ long_running_job.ansible_job_id }}"
+      register: job_result
+      until: job_result.finished
+      retries: 20
+      delay: 5
