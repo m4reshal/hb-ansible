@@ -1,0 +1,21 @@
+---
+- name: Delegate Facts
+  hosts: rheldev
+  tasks:
+    - name: Create a temporary inventory 
+      add_host:
+        name:  new_vm
+        group: temporary_group
+        ansible_host: 192.168.1.183
+        ansible_user: devops
+        ansible_password: redhat
+        ansible_become: yes
+        ansible_become_pass: redhat
+        ansible_become_method: sudo
+        ansible_become_user: root
+        
+
+
+    - name: Collect facts
+      setup:
+      delegate_to: new_vm
