@@ -19,3 +19,9 @@
     - name: Collect facts
       setup:
       delegate_to: new_vm
+      delegate_facts: yes
+
+
+    - name: Print ip info
+      debug:
+        msg: "{{ ansible_default_ipv4.address }}"
