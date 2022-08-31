@@ -19,7 +19,7 @@
     - name: Collect facts
       setup:
       delegate_to: new_vm
-      delegate_facts: yes
+      #delegate_facts: yes
 
 
     - name: Print ip info
