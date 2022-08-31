@@ -10,7 +10,7 @@
       vars: 
         skip_debug: "0"
       debug:
-        msg: "All conditions are true! and  ansible_architecture {{ ansible_architecture == '64-bit'  }}"
+        msg: "All conditions are true! and  ansible_architecture {{ ansible_architecture == '64-bit'  }} and skip_debug: {{ skip_debug | bool }}"
       when: 
         - ansible_architecture == "64-bit" 
         - (ansible_memtotal_mb | int ) >= 4096 
