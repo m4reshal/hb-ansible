@@ -1,0 +1,11 @@
+{% for host in groups['all'] %}
+{% if 'Windows' in hostvars[host].ansible_distribution %}
+{{ hostvars[host].ansible_ip_addresses[0] }} {{ hostvars[host].ansible_hostname }} {{ hostvars[host].ansible_fqdn }}
+{% else %}
+{{ hostvars[host].ansible_default_ipv4.address }} {{ hostvars[host].ansible_hostname }} {{ hostvars[host].ansible_fqdn }}
+{% endif %}
+{% endfor %}
+
+{% if backup_server is defined %}
+{{ backup_server  }}
+{% endif %}

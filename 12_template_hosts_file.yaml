@@ -1,0 +1,40 @@
+---
+- name: Create hosts file with jinja2 templates
+  hosts: all
+  gather_facts: true
+  vars:
+    backup_server: "10.210.200.25 backup.konsalt.info"
+  tasks:
+    - name: Windows block
+      block:
+        - name: Create hosts file from template
+          win_template:
+            src: templates/hosts.j2
+            dest: C:\Temp\hosts.txt
+
+        - name: Read file content
+          win_shell: 'type C:\Temp\hosts.txt'
+          register: content
+
+        - name: Print content
+          debug:
+            msg: "{{ content.stdout_lines }}"
+      when:  "'Windows' in ansible_distribution"
+
+#"ansible_distribution": "Microsoft Windows Server 2019 Datacenter Evaluation"
+
+    - name:  Linux block
+      block:
+        - name: Create hosts file from template
+          template:
+            src: templates/hosts.j2
+            dest: /tmp/hosts
+
+        - name: Read file content
+          shell: cat /tmp/hosts
+          register: content_linux
+
+        - name: Print content
+          debug:
+            msg: "{{ content_linux.stdout_lines }}"
+      when:  "'Windows' not in ansible_distribution"
